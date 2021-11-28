@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.com.ceiba.mobile.pruebadeingreso.adapter.PostsAdapter
 import co.com.ceiba.mobile.pruebadeingreso.databinding.ActivityPostBinding
-import co.com.ceiba.mobile.pruebadeingreso.db.User
 import co.com.ceiba.mobile.pruebadeingreso.rest.ApiService
 import co.com.ceiba.mobile.pruebadeingreso.rest.Endpoints
 import co.com.ceiba.mobile.pruebadeingreso.rest.Endpoints.GET_POST_USER

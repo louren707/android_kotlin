@@ -25,6 +25,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), UsersAdapter.OnPostClickListener {
 
@@ -38,6 +40,13 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnPostClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        loadDB()
+
+        initRecyclerView()
+        addTextListener()
+    }
+
+    private fun loadDB() {
         val progressDialog = ProgressDialog(this@MainActivity)
 
         var listUsers: List<User>
@@ -64,9 +73,6 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnPostClickListener {
             userData.addAll(listUsers)
             adapter.notifyDataSetChanged()
         })
-
-        initRecyclerView()
-        addTextListener()
     }
 
     private fun addTextListener() {
@@ -86,7 +92,7 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnPostClickListener {
     private fun filter(text: String) {
         val filteredNames = ArrayList<User>()
         userData.filterTo(filteredNames) {
-            it.name.toLowerCase().contains(text.toLowerCase())
+            it.name.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
         }
         adapter.filterList(filteredNames)
     }
@@ -136,7 +142,7 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnPostClickListener {
         }
     }
 
-    override fun onPostClickListenet(position: Int) {
+    override fun onPostClickListener(position: Int) {
         val intent = Intent(this@MainActivity, PostActivity::class.java)
         val infoUser: User = userData[position]
 

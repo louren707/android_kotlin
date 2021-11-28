@@ -23,7 +23,7 @@ class UsersAdapter(var users: List<User>, val listener: OnPostClickListener) :
 
         init {
             binding.btnViewPost.setOnClickListener {
-                listener.onPostClickListenet(adapterPosition)
+                listener.onPostClickListener(adapterPosition)
             }
         }
 
@@ -42,7 +42,7 @@ class UsersAdapter(var users: List<User>, val listener: OnPostClickListener) :
     override fun getItemCount(): Int = users.size
 
     interface OnPostClickListener {
-        fun onPostClickListenet(position: Int)
+        fun onPostClickListener(position: Int)
     }
 
     fun filterList(filteredNames: ArrayList<User>) {
