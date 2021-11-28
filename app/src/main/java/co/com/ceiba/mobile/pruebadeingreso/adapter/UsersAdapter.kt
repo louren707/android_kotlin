@@ -8,7 +8,7 @@ import co.com.ceiba.mobile.pruebadeingreso.R
 import co.com.ceiba.mobile.pruebadeingreso.databinding.UserListItemBinding
 import co.com.ceiba.mobile.pruebadeingreso.db.User
 
-class UsersAdapter(val users: List<User>, val listener: OnPostClickListener) :
+class UsersAdapter(var users: List<User>, val listener: OnPostClickListener) :
     RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -43,6 +43,11 @@ class UsersAdapter(val users: List<User>, val listener: OnPostClickListener) :
 
     interface OnPostClickListener {
         fun onPostClickListenet(position: Int)
+    }
+
+    fun filterList(filteredNames: ArrayList<User>) {
+        this.users = filteredNames
+        notifyDataSetChanged()
     }
 }
 

@@ -3,6 +3,8 @@ package co.com.ceiba.mobile.pruebadeingreso.view
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -64,6 +66,29 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnPostClickListener {
         })
 
         initRecyclerView()
+        addTextListener()
+    }
+
+    private fun addTextListener() {
+        binding.editTextSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                filter(editable.toString())
+            }
+        })
+    }
+
+    private fun filter(text: String) {
+        val filteredNames = ArrayList<User>()
+        userData.filterTo(filteredNames) {
+            it.name.toLowerCase().contains(text.toLowerCase())
+        }
+        adapter.filterList(filteredNames)
     }
 
     private fun initRecyclerView() {
