@@ -1,12 +1,11 @@
 package co.com.ceiba.mobile.pruebadeingreso.view
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.com.ceiba.mobile.pruebadeingreso.R
 import co.com.ceiba.mobile.pruebadeingreso.adapter.UsersAdapter
@@ -25,7 +24,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), UsersAdapter.OnPostClickListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: UsersAdapter
@@ -48,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
             when {
                 listUsers.isEmpty() -> {
+                    searchUsers()
                     binding.includedEmptyView.root.visibility = View.VISIBLE
                     progressDialog.setMessage(getString(R.string.generic_message_progress))
                     progressDialog.show()
@@ -63,16 +63,14 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         })
 
-        searchUsers()
         initRecyclerView()
     }
 
     private fun initRecyclerView() {
-        adapter = UsersAdapter(userData)
+        adapter = UsersAdapter(userData, this)
         binding.recyclerViewSearchResults.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewSearchResults.adapter = adapter
     }
-
 
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
@@ -111,6 +109,19 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("ERROR", e.stackTraceToString())
         }
+    }
+
+    override fun onPostClickListenet(position: Int) {
+        val intent = Intent(this@MainActivity, PostActivity::class.java)
+        val infoUser: User = userData[position]
+
+        intent.putExtra("idUser", infoUser.id)
+        intent.putExtra("nameUser", infoUser.name)
+        intent.putExtra("phoneUser", infoUser.phone)
+        intent.putExtra("emailUser", infoUser.email)
+
+        startActivity(intent)
+        finish()
     }
 
 }
